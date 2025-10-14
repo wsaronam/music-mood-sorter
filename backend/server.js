@@ -1,7 +1,8 @@
-import express from "express";
-import axios from "axios";
-import dotenv from "dotenv";
-import cors from "cors";
+const express = require("express");
+const axios = require("axios");
+const dotenv = require("dotenv");
+const cors = require("cors");
+
 
 
 
@@ -12,7 +13,7 @@ app.use(express.json());
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
-const REDIRECT_URI = "http://localhost:3000/callback";
+const REDIRECT_URI = "https://major-chefs-fix.loca.lt";  // I'm now using LocalTunnel to test.  Spotify doesn't allow localhost anymore.
 
 
 // redirects user to spotify login
@@ -21,6 +22,12 @@ app.get("/login", (req, res) => {
     const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
     res.redirect(authUrl);
 });
+
+
+// just for testing
+// app.get("/", (req, res) => {
+//     res.send("backend is running");
+// });
 
 
 // get access token using auth code
