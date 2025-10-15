@@ -1,7 +1,7 @@
 function LoginPage() {
 
     const handleLogin = () => {
-        window.location.href = "http://localhost:5000/login";
+        window.location.href = "https://musicmoodsorter.loca.lt/login";
         
     }
 

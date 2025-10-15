@@ -10,10 +10,22 @@ function Callback() {
 
     useEffect(() => {
         const getToken = async () => {
-            const access_token = "temp";
-            localStorage.setItem("spotify_token", access_token);
+            const code = new URLSearchParams(window.location.search).get("code");
 
-            navigate("/dashboard");
+            if (code) {
+                try {
+                    const response = await axios.post("https://musicmoodsorter.loca.lt/api/token", { code });
+                    const {access_token} = response.data;
+                    localStorage.setItem("spotify_token", access_token);
+                    navigate("/dashboard");
+                }
+                catch (err) {
+                    console.error("error:", err);
+                }
+            }
+            else {
+                return;
+            }
         }
 
         getToken();

@@ -13,7 +13,7 @@ app.use(express.json());
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
-const REDIRECT_URI = "https://major-chefs-fix.loca.lt";  // I'm now using LocalTunnel to test.  Spotify doesn't allow localhost anymore.
+const REDIRECT_URI = "https://musicmoodsorter.loca.lt/callback";  // I'm now using LocalTunnel to test.  Spotify doesn't allow localhost anymore.
 
 
 // redirects user to spotify login
@@ -33,6 +33,7 @@ app.get("/login", (req, res) => {
 // get access token using auth code
 app.post("/api/token", async (req, res) => {
     const code = req.body.code;
+    const authHeader = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64");
 
     const params = new URLSearchParams();
     params.append("grant_type", "authorization_code")
@@ -43,8 +44,8 @@ app.post("/api/token", async (req, res) => {
     try {
         const response = await axios.post("https://accounts.spotify.com/api/token", params, {
             headers: {
-                "Content-Type": "pass",
-                Authorization: "Basic " + `${CLIENT_ID}`
+                "Content-Type": "application/x-www-form-urlencoded",
+                Authorization: `Basic ${authHeader}`,
             },
         });
         res.json(response.data);
