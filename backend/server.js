@@ -25,9 +25,9 @@ app.get("/login", (req, res) => {
 
 
 // just for testing
-// app.get("/", (req, res) => {
-//     res.send("backend is running");
-// });
+app.get("/", (req, res) => {
+    res.send("backend is running");
+});
 
 
 // get access token using auth code

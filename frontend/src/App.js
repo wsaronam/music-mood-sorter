@@ -5,7 +5,7 @@ import MusicMoodSorter from './MusicMoodSorter';
 
 // To test code run this on the frontend terminal to get a localtunnel for spotify redirect URI
 // npm start
-// lt --port 3000 --subdomain musicmoodsorter
+// npx localtunnel --port 3000 --subdomain musicmoodsorter
 
 function App() {
   return (

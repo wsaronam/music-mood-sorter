@@ -1,5 +1,6 @@
 import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
+import axios from 'axios';
 
 
 
@@ -14,7 +15,7 @@ function Callback() {
 
             if (code) {
                 try {
-                    const response = await axios.post("https://musicmoodsorter.loca.lt/api/token", { code });
+                    const response = await axios.post("http://localhost:5000/api/token", { code });
                     const {access_token} = response.data;
                     localStorage.setItem("spotify_token", access_token);
                     navigate("/dashboard");
