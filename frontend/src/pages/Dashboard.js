@@ -8,29 +8,46 @@ function Dashboard() {
 
     const [user, setUser] = useState(null);
     const [tracks, setTracks] = useState([]);
+    const [moodsTracks, setMoodsTracks] = useState([]);
 
     useEffect(() => {
 
         const getData = async () => {
-            const token = localStorage.getItem("spotify_token");
+            try {
+                const token = localStorage.getItem("spotify_token");
 
-            // get user profile
-            const userRes = await fetch("https://api.spotify.com/v1/me", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+                // get user profile
+                const userRes = await fetch("https://api.spotify.com/v1/me", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const userData = await userRes.json();
+                setUser(userData);
 
-            const userData = await userRes.json();
-            setUser(userData);
+
+                // get liked songs
+                const tracksRes = await fetch("https://api.spotify.com/v1/me/tracks?limit=50", {
+                    headers: { Authorization: `Bearer ${token}`, },
+                });
+                const tracksData = await tracksRes.json();
+                setTracks(tracksData.items.map(item => item.track));
 
 
-            // get liked songs
-            const tracksRes = await fetch("https://api.spotify.com/v1/me/tracks?limit=50", {
-                headers: { Authorization: `Bearer ${token}`, },
-            });
-            const tracksData = await tracksRes.json();
-            return tracksData.items.map(item => item.track);
+                // get mood-categorized songs
+                const tracksIds = tracks.map(track => track.id);
+                console.log(tracksIds); // TODO: get this mood-sorting to work
+                const moodsRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=${tracksIds}`, {
+                    headers: { Authorization: `Bearer ${token}`, },
+                });
+                const moodsData = await moodsRes.json();
+                setMoodsTracks(moodsData.items.map(item => item.track));
+                console.log("Fetched moods tracks:", moodsData);
+
+            }
+            catch (err) {
+                console.error("Error getting data: " + err);
+            }
         }
 
         getData();
@@ -39,17 +56,26 @@ function Dashboard() {
     
 
 
+    if (!user) {
+        return <div>Loading your Spotify data...</div>;
+    }
+
     return (
         <div>
             <h1>Dashboard Page</h1>
-            <h1>Welcome, {user.display_name}</h1>
-            <img src={user.images?.[0]?.url} alt="profile_picture"/>
+            <h1>Welcome, <a href={user.external_urls.spotify} target="_blank">{user.display_name}</a></h1>
+            <img 
+                src={user.images?.[0]?.url || "https://trackify.am/_next/image?url=%2Fuser.webp&w=640&q=75"} 
+                alt="profile_picture"
+                width="150"
+            />
 
             <h2>Liked Songs</h2>
             <ul>
                 {tracks.map((track) => (
                     <li key={track.id}>
-                        {track.name} - {track.artists.name}
+                        {track.name} - {track.artists[0].name}
+                        {/* <audio controls src={track.preview_url}></audio> */}
                     </li>
                 ))}
             </ul>
