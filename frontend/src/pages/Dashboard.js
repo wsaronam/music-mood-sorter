@@ -31,18 +31,19 @@ function Dashboard() {
                     headers: { Authorization: `Bearer ${token}`, },
                 });
                 const tracksData = await tracksRes.json();
-                setTracks(tracksData.items.map(item => item.track));
+                const tracksDataMap = tracksData.items.map(item => item.track);
+                setTracks(tracksDataMap);
 
 
                 // get mood-categorized songs
-                const tracksIds = tracks.map(track => track.id);
-                console.log(tracksIds); // TODO: get this mood-sorting to work
-                const moodsRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=${tracksIds}`, {
+                const tracksIds = tracksDataMap.map(track => track.id);
+                const moodsRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=${tracksIds.join(",")}`, {
                     headers: { Authorization: `Bearer ${token}`, },
                 });
                 const moodsData = await moodsRes.json();
-                setMoodsTracks(moodsData.items.map(item => item.track));
-                console.log("Fetched moods tracks:", moodsData);
+                console.log(moodsData);
+                //setMoodsTracks(moodsData.items.map(item => item.track));
+                //console.log(moodsData);
 
             }
             catch (err) {
