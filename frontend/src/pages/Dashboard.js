@@ -15,6 +15,7 @@ function Dashboard() {
         const getData = async () => {
             try {
                 const token = localStorage.getItem("spotify_token");
+                console.log("Access token:", token);
 
                 // get user profile
                 const userRes = await fetch("https://api.spotify.com/v1/me", {
@@ -37,11 +38,13 @@ function Dashboard() {
 
                 // get mood-categorized songs
                 const tracksIds = tracksDataMap.map(track => track.id);
-                const moodsRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=${tracksIds.join(",")}`, {
-                    headers: { Authorization: `Bearer ${token}`, },
-                });
-                const moodsData = await moodsRes.json();
-                console.log(moodsData);
+                console.log(tracksIds);
+                //const moodsRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=${tracksIds.join(",")}`, {
+                // const moodsRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=7MhJJfA2Mfj1WJjrmX1UIv`, {
+                //     headers: { Authorization: `Bearer ${token}`, },
+                // });
+                // const moodsData = await moodsRes.json();
+                // console.log(moodsData);
                 //setMoodsTracks(moodsData.items.map(item => item.track));
                 //console.log(moodsData);
 
