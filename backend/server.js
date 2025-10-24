@@ -3,6 +3,10 @@ const axios = require("axios");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
+// To test code run this on the backend terminal to get a localtunnel for spotify redirect URI
+// npm start
+// npx localtunnel --port 5000 --subdomain musicmoodsorter-api
+
 
 
 
