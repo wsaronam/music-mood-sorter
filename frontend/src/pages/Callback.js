@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from 'axios';
 
@@ -7,9 +7,18 @@ import axios from 'axios';
 
 function Callback() {
 
+    const [called, setCalled] = useState(false);  // stops multiple calls of post
     const navigate = useNavigate();
 
     useEffect(() => {
+
+        if (called) {  // prevent multiple calls
+            return;
+        }
+        else {
+            setCalled(true);
+        }
+
         const getToken = async () => {
             const code = new URLSearchParams(window.location.search).get("code");
 
@@ -31,7 +40,7 @@ function Callback() {
         }
 
         getToken();
-    }, [navigate]);
+    }, [called, navigate]);
 
 
     return (
