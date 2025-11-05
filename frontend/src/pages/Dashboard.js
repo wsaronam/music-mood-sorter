@@ -37,13 +37,14 @@ function Dashboard() {
 
                 // get mood-categorized songs
                 const tracksIds = tracksDataMap.map(track => track.id);
-                //console.log(tracksIds);
+                console.log(tracksIds);
+                console.log("token: ", token);
                 //const moodsRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=${tracksIds.join(",")}`, {
-                // const moodsRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=7MhJJfA2Mfj1WJjrmX1UIv`, {
-                //     headers: { Authorization: `Bearer ${token}`, },
-                // });
-                // const moodsData = await moodsRes.json();
-                // console.log(moodsData);
+                const moodsRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=7MhJJfA2Mfj1WJjrmX1UIv`, {
+                    headers: { Authorization: `Bearer ${token}`, },
+                });
+                const moodsData = await moodsRes.json();
+                console.log(moodsData);
                 //setMoodsTracks(moodsData.items.map(item => item.track));
                 //console.log(moodsData);
 
