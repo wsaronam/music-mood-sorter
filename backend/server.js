@@ -61,5 +61,25 @@ app.post("/api/token", async (req, res) => {
 });
 
 
+// to check valididy of token and permissions
+app.get("/api/check-token", async (req, res) => {
+    try {
+        const token = req.query.token;
+        if (!token) {
+            return res.status(400).json({ error: "missing token query param" });
+        }
+
+        const resp = await axios.get("https://api.spotify.com/v1/me", {
+            headers: {Authorization: `Bearer ${token}` },
+        });
+
+        res.json(resp.data);
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+
 
 app.listen(5000, () => console.log("Server running"));
