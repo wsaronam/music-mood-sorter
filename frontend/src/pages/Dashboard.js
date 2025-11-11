@@ -54,14 +54,33 @@ function Dashboard() {
                 // }
 
 
-                const featureRes = await fetch("https://api.spotify.com/v1/audio-features/7MhJJfA2Mfj1WJjrmX1UIv", { headers: { Authorization: `Bearer ${token}` } });
-                console.log("features:", await featureRes.json());
+                // const featureRes = await fetch("https://api.spotify.com/v1/audio-features/7MhJJfA2Mfj1WJjrmX1UIv", { headers: { Authorization: `Bearer ${token}` } });
+                // console.log("features:", await featureRes.json());
 
-                const trackRes = await fetch("https://api.spotify.com/v1/tracks/7MhJJfA2Mfj1WJjrmX1UIv", { headers: { Authorization: `Bearer ${token}` } });
-                console.log("track:", await trackRes.json());
+                // const trackRes = await fetch("https://api.spotify.com/v1/tracks/7MhJJfA2Mfj1WJjrmX1UIv", { headers: { Authorization: `Bearer ${token}` } });
+                // console.log("track:", await trackRes.json());
                 
                 //setMoodsTracks(moodsData.items.map(item => item.track));
                 //console.log(moodsData);
+
+
+                const allFeaturesSongs = [];
+                for (let i = 0; i < tracksIds.length; i += 100) {
+                    const chunk = tracksIds.slice(i, i + 100);
+                    const moodsRes = await fetch(`https://api.spotify.com/v1/audio-features?ids=${tracksIds.join(",")}`,
+                        { headers: { Authorization: `Bearer ${token}` }
+                    });
+
+                    if (!moodsRes.ok) {
+                        console.error("error:", moodsRes.status);
+                    }
+                    else {
+                        const moodsData = await moodsRes.json();
+                        const validData = moodsData.audio_features.filter((f) => f != null);
+                        allFeaturesSongs.push(...validData);
+                    }
+                }
+                console.log(allFeaturesSongs);
 
             }
             catch (err) {
