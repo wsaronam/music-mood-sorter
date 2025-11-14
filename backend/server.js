@@ -81,5 +81,21 @@ app.get("/api/check-token", async (req, res) => {
 });
 
 
+app.get("/api/audio-features", async (req, res) => {
+    const trackIds = req.query.ids;
+    try {
+        const response = await axios.get(
+            `https://api.spotify.com/v1/audio-features?ids=${trackIds}`,
+            { 
+                headers: { Authorization: `Bearer ${process.env.SPOTIFY_TOKEN}` }, 
+            }
+        );
+        res.json(response.data);
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
 
 app.listen(5000, () => console.log("Server running"));
