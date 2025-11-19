@@ -40,15 +40,12 @@ function Dashboard() {
                 console.log(tracksIds);
                 console.log("token: ", token);
 
-                const tracksFeaturesRes = await axios.get(`https://musicmoodsorter-api.loca.lt/api/audio-features?ids=${songTracks}`, 
+                const tracksFeaturesRes = await axios.get(`https://musicmoodsorter-api.loca.lt/api/audio-features?ids=${tracksIds}`, 
                     {
                         headers: { Authorization: `Bearer ${token}` }
                     },
                 )
                 console.log("song track features:", tracksFeaturesRes.data);
-
-
-                console.log(allFeaturesSongs);
 
             }
             catch (err) {

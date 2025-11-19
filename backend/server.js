@@ -19,6 +19,11 @@ const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;  // I'm now using LocalTunnel to test.  Spotify doesn't allow localhost anymore.
 
+let CURRENT_ACCESS_TOKEN = "";  // FIGURE OUT A BETTER SOLUTION FOR STORING TOKEN.  IMPORTANT
+                                // SESSION, COOKIE, DATABASE, 
+
+
+
 
 // redirects user to spotify login
 app.get("/login", (req, res) => {
@@ -52,8 +57,9 @@ app.post("/api/token", async (req, res) => {
                 Authorization: `Basic ${authHeader}`,
             },
         });
-        res.json(response.data);
-        console.log(response.data);
+        const tokenData = response.data;
+        CURRENT_ACCESS_TOKEN = tokenData.access_token
+        res.json(tokenData);
     }
     catch (error) {
         res.status(400).json({ error: error.response.data });
@@ -87,7 +93,7 @@ app.get("/api/audio-features", async (req, res) => {
         const response = await axios.get(
             `https://api.spotify.com/v1/audio-features?ids=${trackIds}`,
             { 
-                headers: { Authorization: `Bearer ${process.env.SPOTIFY_TOKEN}` }, 
+                headers: { Authorization: `Bearer ${CURRENT_ACCESS_TOKEN}` }, 
             }
         );
         res.json(response.data);
