@@ -89,17 +89,20 @@ app.get("/api/check-token", async (req, res) => {
 
 app.get("/api/audio-features", async (req, res) => {
     const trackIds = req.query.ids;
+    console.log("saved token:", CURRENT_ACCESS_TOKEN);
+    console.log("incoming auth header:", req.headers.authorization);
+    console.log("headers:", req.headers);
     try {
         const response = await axios.get(
             `https://api.spotify.com/v1/audio-features?ids=${trackIds}`,
             { 
-                headers: { Authorization: `Bearer ${CURRENT_ACCESS_TOKEN}` }, 
+                headers: { Authorization: req.headers.authorization }, 
             }
         );
         res.json(response.data);
     }
     catch (err) {
-        console.log(err);
+        console.log("spotify error:", err);
     }
 });
 
