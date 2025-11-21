@@ -47,6 +47,16 @@ function Dashboard() {
                 )
                 console.log("song track features:", tracksFeaturesRes.data);
 
+                // axios.get("https://api.spotify.com/v1/audio-features?ids=4G8gkOterJn0Ywt6uhqbhp", 
+                //     {
+                //         headers: { Authorization: `Bearer ${token}` },
+                //     }
+                // )
+                // .then(res => console.log(res.data))
+                // .catch(err => console.log(err.response.data));
+                
+
+
             }
             catch (err) {
                 console.error("Error getting data: " + err);
