@@ -7,6 +7,7 @@ const cors = require("cors");
 // npm start
 // npx localtunnel --port 5000 --subdomain musicmoodsorter-api
 
+
 // Test 
 // curl.exe -X GET "https://api.spotify.com/v1/audio-features?ids=4G8gkOterJn0Ywt6uhqbhp" -H "Authorization: Bearer TOKEN_GOES_HERE"
 
@@ -110,4 +111,4 @@ app.get("/api/audio-features", async (req, res) => {
 });
 
 
-app.listen(5000, () => console.log("Server running"));
+app.listen(5000, () => console.log("Server running on "));
