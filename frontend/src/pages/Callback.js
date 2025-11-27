@@ -24,9 +24,7 @@ function Callback() {
 
             if (code) {
                 try {
-                    //const response = await axios.post("http://localhost:5000/api/token", { code });
                     const response = await axios.post("https://musicmoodsorter-api.loca.lt/api/token", { code });
-                    //const response = await axios.post("http://127.0.0.1:3000/api/token", { code });
                     const {access_token} = response.data;
                     localStorage.setItem("spotify_token", access_token);
                     navigate("/dashboard");
